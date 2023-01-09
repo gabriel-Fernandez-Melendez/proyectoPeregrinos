@@ -1,0 +1,16 @@
+entidades\Estancia.class
+entidades\Menus.class
+entidades\Peregrino.class
+com\mycompany\peregrinosmaven\PeregrinosMaven.class
+dao\ParadaDAO.class
+com\mycompany\peregrinosmaven\Pruebas.class
+dao\CarnetDAO.class
+dao\operacionesCRUD.class
+entidades\Perfil.class
+validaciones\Validadores.class
+entidades\Carnet.class
+entidades\Parada.class
+lectores\Lectores.class
+conexionBD\ConexPeregrino.class
+dao\EstanciaDAO.class
+dao\PeregrinoDAO.class
