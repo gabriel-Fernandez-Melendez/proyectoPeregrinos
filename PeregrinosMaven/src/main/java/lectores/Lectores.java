@@ -211,12 +211,15 @@ public class Lectores {
      
      //a este metodo hay que incluirle la info del carnet al peregrino para poder mostrarlo
      public static void ExportarParadaADMIN(Peregrino per){
-         Connection conexion=ConexPeregrino.getCon();
+          Connection conexion=ConexPeregrino.getCon();
+         if(per.getPerfil()==Perfil.AdministradordeParadas){
+        
          CarnetDAO c=CarnetDAO.singleCarnet(conexion);
          Carnet carnet=c.buscarPorID(per.getId());
          //asi puedo mastrar los datos de la parada
          if(carnet != null){
              per.setCarnet(carnet);
+         }
          }
          boolean validador=false;
                   LocalDate fechalocaldate;

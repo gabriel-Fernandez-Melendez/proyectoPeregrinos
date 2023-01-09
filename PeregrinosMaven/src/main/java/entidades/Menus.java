@@ -257,15 +257,17 @@ public class Menus {
             elecc = scan.nextInt();
 
             switch (elecc) {
-                case 1:Carnet carnet;
+                case 1:
+                    Carnet carnet= new Carnet();
                     validador = true;
                     //es te if para hacer la distincion entre un administrador general  y un admin de parada
                     if (per.getPerfil().equals(Perfil.AdministradordeParadas)) {
                         ExportarParadaADMIN(per);
                     } else {
                          Parada parada;
-                         parada=seleccionadordeparadaGeneral();      
-                         per.getCarnet().setParada(parada);
+                         parada=seleccionadordeparadaGeneral();  
+                         carnet.setParada(parada);
+                         per.setCarnet(carnet);
                           ExportarParadaADMIN(per);
                     }
                     break;
