@@ -9,6 +9,7 @@ import entidades.Estancia;
 import entidades.Parada;
 import entidades.Peregrino;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -147,7 +148,7 @@ public class EstanciaDAO implements operacionesCRUD <Estancia>{
     }
     
     //todo este metodo hay que cambiarlo para que funcione con la base de datos
-    public void ExportarDatosParada(Peregrino per){
+    public void ExportarDatosParada(Peregrino per,LocalDate fecha,LocalDate fecha2){
         Estancia estancia = new Estancia();
         Peregrino p=new Peregrino();
         Parada parada =new Parada();
@@ -157,14 +158,20 @@ public class EstanciaDAO implements operacionesCRUD <Estancia>{
                 this.conex = ConexPeregrino.establecerConexion();
             }
             PreparedStatement pstmt = conex.prepareStatement(select);
-            pstmt.setString(1, per.getCarnet().getParada().toString());
+            pstmt.setString(1, per.getCarnet().getParada().getNombre());
+            Date primera=Date.valueOf(fecha);
+            Date segunda=Date.valueOf(fecha2);
+            pstmt.setDate(2, primera);
+            pstmt.setDate(3, segunda);
             ResultSet result = pstmt.executeQuery();
+            //las estancias realizadas
+            System.out.println("las estancias durante las fechas indicadas han sido: ");
             while (result.next()) {
                //id	id_peregrino	fecha	vip	nombre_parada
                 long ide = result.getLong("id");
                 long idp=result.getLong("id_peregrino");
                 java.sql.Date fechaSQL =result.getDate("fecha");
-		LocalDate fecha=fechaSQL.toLocalDate();
+		LocalDate fechabase=fechaSQL.toLocalDate();
                 boolean vip=result.getBoolean("vip");
                 String nombrep=result.getString("nombre_parada");
                 estancia.setId(ide);
@@ -175,9 +182,10 @@ public class EstanciaDAO implements operacionesCRUD <Estancia>{
                 estancia.setVip(vip);
                 //lo mismo con la parada
                 parada.setNombre(nombrep);
-                estancia.setParada(parada);
+                estancia.setParada(parada); 
+                System.out.println("el resultado de tu consulta es:" + estancia.toString());
             }
-            System.out.println("el resultado de tu consulta es:" + estancia.toString());
+           
             conex.close();
         } catch (SQLException e) {
             e.printStackTrace();

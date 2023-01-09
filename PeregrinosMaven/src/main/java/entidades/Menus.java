@@ -23,6 +23,7 @@ import static lectores.Lectores.Loginparada;
 import static lectores.Lectores.loginBDAdmin;
 import static lectores.Lectores.loginBDparada;
 import static lectores.Lectores.loginBDper;
+import static lectores.Lectores.seleccionadordeparadaGeneral;
 import static lectores.Lectores.validarNuevoUsuario;
 import validaciones.Validadores;
 
@@ -256,13 +257,16 @@ public class Menus {
             elecc = scan.nextInt();
 
             switch (elecc) {
-                case 1:
+                case 1:Carnet carnet;
                     validador = true;
                     //es te if para hacer la distincion entre un administrador general  y un admin de parada
                     if (per.getPerfil().equals(Perfil.AdministradordeParadas)) {
                         ExportarParadaADMIN(per);
                     } else {
-
+                         Parada parada;
+                         parada=seleccionadordeparadaGeneral();      
+                         per.getCarnet().setParada(parada);
+                          ExportarParadaADMIN(per);
                     }
                     break;
                 case 2:

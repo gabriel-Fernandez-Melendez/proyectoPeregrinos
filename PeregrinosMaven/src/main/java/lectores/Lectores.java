@@ -6,6 +6,8 @@ package lectores;
 
 import conexionBD.ConexPeregrino;
 import dao.CarnetDAO;
+import dao.EstanciaDAO;
+import dao.ParadaDAO;
 import dao.PeregrinoDAO;
 import entidades.Carnet;
 import entidades.Parada;
@@ -243,7 +245,55 @@ public class Lectores {
           validador=Validadores.leerBoolean();
           if(validador){
               System.out.println("va a comenzar la consulta de los datos aportados por el administrador");
+              //aqui va el metodo con el cual hacemos la ocnsulta
+              EstanciaDAO e=EstanciaDAO.singleEstancia(conexion);
+              e.ExportarDatosParada(per, fechalocaldate, fechalocaldate2);
           }
      }
+     
+    public static Perfil tipodeperfilgeneral(){
+        boolean val=false;    
+        Perfil perfil;
+        Scanner scan=new Scanner(System.in);
+        
+        int elecc;
+        do{
+        System.out.println("buenas administrador general, como desea operar el dia de hoy ?");
+        int i=1;
+        for(Perfil p: Perfil.values()){
+            System.out.println(i+"-"+p.getTipodeperfil());
+            i++;
+        }
+        elecc=scan.nextInt();
+        System.out.println("el perfil que usara es el: "+Perfil.values()[elecc - 1]+" es esto correcto ? ");
+        val=Validadores.leerBoolean();
+        }while(!val);
+        perfil=Perfil.values()[elecc - 1];
+        return perfil; 
+    }
 
+    public static Parada seleccionadordeparadaGeneral(){
+        ArrayList<Parada> paradas = new ArrayList<Parada>();
+        boolean val=false;    
+        Parada parada;
+        Scanner scan=new Scanner(System.in);
+        Connection conexion=ConexPeregrino.getCon();
+        ParadaDAO p=ParadaDAO.singleParada(conexion);
+        paradas = (ArrayList<Parada>) p.buscarTodos();
+        int elecc;
+        do{
+        System.out.println("buenas administrador general, como desea operar el dia de hoy ?");
+        int i=1;
+        for(Parada par: paradas){
+            System.out.println(i+"-"+par.toString());
+            i++;
+        }
+        elecc=scan.nextInt();
+        System.out.println("la parada que usara es: "+paradas.get(elecc-1)+" es esto correcto ? ");
+        val=Validadores.leerBoolean();
+        }while(!val);
+        parada=paradas.get(elecc-1);
+        System.out.println("usted va a trabajar como administrador de la parada : "+parada.toString());
+        return parada; 
+    }
 }
