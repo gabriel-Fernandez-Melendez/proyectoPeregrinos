@@ -20,6 +20,7 @@ import static lectores.Lectores.ExportarParadaADMIN;
 import static lectores.Lectores.Login;
 import static lectores.Lectores.LoginAdmin;
 import static lectores.Lectores.Loginparada;
+import static lectores.Lectores.alojarse;
 import static lectores.Lectores.loginBDAdmin;
 import static lectores.Lectores.loginBDparada;
 import static lectores.Lectores.loginBDper;
@@ -134,6 +135,7 @@ public class Menus {
     }
 
     public void menuprincipal() {
+        Peregrino pasar=new Peregrino();
         boolean validador = true;
         do {
             System.out.println("bienvenido al menu principal: ");
@@ -157,7 +159,8 @@ public class Menus {
                         valido = loginBDper(per);
                     } while (!valido);
                     Menus me = new Menus();
-                    me.menuPeregrino(per);
+                    pasar=per;
+                    me.menuPeregrino(pasar);
                     break;
                 case 2:
                     validador = true;
@@ -265,6 +268,7 @@ public class Menus {
                         ExportarParadaADMIN(per);
                     } else {
                          Parada parada;
+                         //este metodo permite al administrador general escojer la parada con la que va a operar
                          parada=seleccionadordeparadaGeneral();  
                          carnet.setParada(parada);
                          per.setCarnet(carnet);
@@ -272,6 +276,18 @@ public class Menus {
                     }
                     break;
                 case 2:
+                    Carnet carnet2= new Carnet();
+                    validador = true;
+                    //es te if para hacer la distincion entre un administrador general  y un admin de parada
+                    if (per.getPerfil().equals(Perfil.AdministradordeParadas)) {
+                        alojarse(per);
+                    } else {
+                         Parada parada;
+                         parada=seleccionadordeparadaGeneral();  
+                         carnet2.setParada(parada);
+                         per.setCarnet(carnet2);
+                          ExportarParadaADMIN(per);
+                    }
                     break;
                 case 3:
                     validador = true;

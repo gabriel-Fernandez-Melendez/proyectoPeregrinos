@@ -10,6 +10,7 @@ import dao.EstanciaDAO;
 import dao.ParadaDAO;
 import dao.PeregrinoDAO;
 import entidades.Carnet;
+import entidades.Estancia;
 import entidades.Parada;
 import entidades.Peregrino;
 import entidades.Perfil;
@@ -216,7 +217,7 @@ public class Lectores {
         
          CarnetDAO c=CarnetDAO.singleCarnet(conexion);
          Carnet carnet=c.buscarPorID(per.getId());
-         //asi puedo mastrar los datos de la parada
+         //asi puedo mostrar los datos de la parada
          if(carnet != null){
              per.setCarnet(carnet);
          }
@@ -298,5 +299,48 @@ public class Lectores {
         parada=paradas.get(elecc-1);
         System.out.println("usted va a trabajar como administrador de la parada : "+parada.toString()+" " );
         return parada; 
+    }
+    
+    public static void alojarse(Peregrino per){
+        Peregrino resultado;
+        Estancia estancia = null;
+        Connection conexion=ConexPeregrino.getCon();
+         if(per.getPerfil()==Perfil.AdministradordeParadas){
+        
+         CarnetDAO c=CarnetDAO.singleCarnet(conexion);
+         Carnet carnet=c.buscarPorID(per.getId());
+         //asi puedo mostrar los datos de la parada
+         if(carnet != null){
+             per.setCarnet(carnet);
+         }
+         }
+         boolean validador=false;
+          System.out.println("Buenas tardes administrador "+per.getNombre() +", usted trabaja en la parada: "+per.getCarnet().getParada().toString());
+          do{
+          System.out.println("sobre que peregrino quiere sellar el carnet?");
+          Scanner scan= new Scanner(System.in);
+          long id=scan.nextInt();
+          PeregrinoDAO p=PeregrinoDAO.singlePeregrino(conexion);
+          CarnetDAO c=CarnetDAO.singleCarnet(conexion);
+          resultado=p.buscarPorID(id);
+          Carnet carnet=c.buscarPorID(id);
+          if( carnet==null && resultado==null){
+              System.out.println("el id introducido no es valido, ingrese otro id!");
+              validador=false;
+          }
+          else{
+              resultado.setCarnet(carnet);    
+              //cambio la parada del carnet por la parada del administrador dentro dle objeto para el registro
+              carnet.setParada(per.getCarnet().getParada());
+              System.out.println("es el peregrino: "+resultado.getNombre()+"de carnet"+resultado.getCarnet().toString()+"el que quiere sellar?");
+              validador=Validadores.leerBoolean();
+          }
+          }while(!validador);
+          estancia.setPeregrino(resultado);
+          EstanciaDAO e=EstanciaDAO.singleEstancia(conexion);
+          long insercion=e.insertarSinID(estancia);
+          if(insercion>1){
+              System.out.println("se ha registrado la nueva estancia: "+insercion);
+          }
     }
 }
