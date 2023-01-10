@@ -224,7 +224,7 @@ public class Lectores {
          boolean validador=false;
                   LocalDate fechalocaldate;
                   LocalDate fechalocaldate2;
-         System.out.println("Buenas tardes administrador , usted trabaja en la parada: "+per.getCarnet().getParada().toString());
+         System.out.println("Buenas tardes administrador "+per.getNombre() +", usted trabaja en la parada: "+per.getCarnet().getParada().toString());
          //aqui va el metodo que busca en un  rango de fechas concreto 
          do{
          Scanner scan= new Scanner(System.in);
@@ -296,7 +296,7 @@ public class Lectores {
         val=Validadores.leerBoolean();
         }while(!val);
         parada=paradas.get(elecc-1);
-        System.out.println("usted va a trabajar como administrador de la parada : "+parada.toString());
+        System.out.println("usted va a trabajar como administrador de la parada : "+parada.toString()+" " );
         return parada; 
     }
 }
