@@ -1,0 +1,6 @@
+nombre clave perfil id
+dale dale Peregrino 1
+xmltest xmltest Peregrino 1
+asisi asisi Peregrino 1
+estasi estasi Peregrino 1
+hola hola Administradordeparadas 1
