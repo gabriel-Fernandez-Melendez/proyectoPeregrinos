@@ -146,5 +146,26 @@ public class CarnetDAO implements operacionesCRUD<Carnet> {
     public boolean eliminar(Carnet elemento) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    public boolean aumentarDistancia(Long id){
+        boolean val = false;
+        String select = " update carnet set distancia = distancia+5.0 where id_peregrino =? ";
+        try {
+            if (this.conex == null || this.conex.isClosed()) {
+                this.conex = ConexPeregrino.establecerConexion();
+            }
+            PreparedStatement pstmt = conex.prepareStatement(select);
+            pstmt.setLong(1, id);
+             int resultado = pstmt.executeUpdate();
+             if(resultado == 1){
+                 System.out.println("se registro la distancia recorrida por el peregrino y se ha sellado su carnet!");
+                 val=true;
+             }
+            conex.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return val;
+    }
 
 }

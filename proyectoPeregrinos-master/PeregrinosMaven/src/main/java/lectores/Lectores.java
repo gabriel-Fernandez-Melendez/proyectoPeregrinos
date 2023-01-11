@@ -300,7 +300,8 @@ public class Lectores {
         System.out.println("usted va a trabajar como administrador de la parada : "+parada.toString()+" " );
         return parada; 
     }
-    
+ 
+    //este metodo esta practicamente listo solo falta añadir el que se sumen las distancias
     public static void alojarse(Peregrino per){
         Peregrino resultado;
         Estancia estancia=new Estancia();
@@ -323,6 +324,7 @@ public class Lectores {
           PeregrinoDAO p=PeregrinoDAO.singlePeregrino(conexion);
           CarnetDAO c=CarnetDAO.singleCarnet(conexion);
           resultado=p.buscarPorID(id);
+          //algo tengo que cambiar en esta llamada para poder cambiar la distancia recorrida por el peregrino
           Carnet carnet=c.buscarPorID(id);
           if( carnet==null && resultado==null){
               System.out.println("el id introducido no es valido, ingrese otro id!");
@@ -333,16 +335,32 @@ public class Lectores {
               //cambio la parada del carnet por la parada del administrador dentro dle objeto para el registro
               carnet.setParada(per.getCarnet().getParada());
               resultado.setCarnet(carnet);
-              System.out.println("es el peregrino: "+resultado.getNombre()+"de carnet"+resultado.getCarnet().toString()+"el que quiere sellar?");
+              System.out.println("es el peregrino: "+resultado.getNombre()+"de carnet: "+resultado.getCarnet().toString()+"el que quiere sellar?");
               validador=Validadores.leerBoolean();
+              boolean distancia=false;
+              CarnetDAO e2=CarnetDAO.singleCarnet(conexion);
+              distancia= e2.aumentarDistancia(resultado.getId());
           }
           }while(!validador);
+          System.out.println("el peregrino desea hacer una estancia en la parada ? ");
+          validador=Validadores.leerBoolean();
+          if(validador){
           estancia.setPeregrino(resultado);
+          estancia.setFecha(LocalDate.now());
+          estancia.setParada(per.getCarnet().getParada());
+          System.out.println("la estancia del peregrino sera vip?");
+          validador=Validadores.leerBoolean();
+          estancia.setVip(validador);
           EstanciaDAO e=EstanciaDAO.singleEstancia(conexion);
           //creo que tengo que poner el seteo del resto de las partes del objeto estancia
           long insercion=e.insertarSinID(estancia);
           if(insercion>1){
               System.out.println("se ha registrado la nueva estancia: "+insercion);
+          }
+          }
+          else{
+              System.out.println("a terminado el sellado del peregrino!");
+              
           }
     }
 }
