@@ -57,7 +57,7 @@ public enum Perfil {
     //solo devuelve el string del tipo de perfil que es lo que se ingresa en la BD
     @Override
     public String toString() {
-        return " "+tipodeperfil+" ";
+        return ""+tipodeperfil+"";
     }
     
     
