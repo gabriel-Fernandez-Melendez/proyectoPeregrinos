@@ -41,7 +41,7 @@ import validaciones.Validadores;
 public class Lectores {
 
     
-
+//tengo que cambiar el como esta el acceso a los perfiles (no esp riritario )
     //metodo obsoleto
     public static ArrayList<Parada> LectoresParadas() throws IOException {
         ArrayList<Parada> paradas = new ArrayList<Parada>();

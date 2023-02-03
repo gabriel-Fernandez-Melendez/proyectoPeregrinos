@@ -26,6 +26,7 @@ public class ConexPeregrino {
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/peregrinosbd";
 	private static final String USER = "root";
 	private static final String PASS = "";
+        //aqui tengo que hacerlo letendo con la clase fileinputstream y getProperty
 
 	private static Connection conexion = null;
 

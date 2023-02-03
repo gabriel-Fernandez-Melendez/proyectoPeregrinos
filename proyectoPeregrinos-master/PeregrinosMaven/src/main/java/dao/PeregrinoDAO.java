@@ -206,4 +206,49 @@ public class PeregrinoDAO implements operacionesCRUD<Peregrino> {
         return peregrino;
     }
     
+    //introducir las credenciales del usuario 
+    public long insertarcredenciales(Peregrino p){
+         long ret = -1;
+        //importante, incluir en esta clase el insert de los datos a la tabla credenciales
+        String consultaInsertStr = "insert into credenciales(id_peregrino,tipo,usur,pass) values (?,?,?,?)";
+        try {
+            if (this.conex == null || this.conex.isClosed()) {
+                conex = ConexPeregrino.establecerConexion();
+            }
+            PreparedStatement pstmt = conex.prepareStatement(consultaInsertStr);
+            pstmt.setLong(1, p.getId());
+            pstmt.setString(2, p.getPerfil().toString());
+            pstmt.setString(3, p.getNombre());
+            pstmt.setString(4, p.getContraseña());
+            int resultadoInsercion = pstmt.executeUpdate();
+            //si se cumple la condicion hacemos un if para hacer el select
+            if (resultadoInsercion == 1) {
+                String consultaSelect = "SELECT id FROM peregrino WHERE nombre=? AND nacionalidad=? ";
+                PreparedStatement pstmt2 = conex.prepareStatement(consultaSelect);
+                pstmt2.setString(1, p.getNombre());
+                pstmt2.setString(2, p.getNacionalidad());
+                ResultSet result = pstmt2.executeQuery();
+                while (result.next()) {
+                    long id = result.getLong("id");
+                    if (id != -1) //ret lleva el valor del id del peregrino antes de insertar en la tabla credenciales
+                    {
+                        ret = id;
+                    }                   
+                }
+                result.close();
+                pstmt2.close();
+            }
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println("Se ha producido una SQLException:" + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        } catch (Exception e) {
+            System.out.println("Se ha producido una Exception:" + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
+
+        return ret;
+    }
 }

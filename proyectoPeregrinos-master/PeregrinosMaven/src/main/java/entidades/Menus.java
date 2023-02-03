@@ -80,12 +80,15 @@ public class Menus {
                             perfil = TipoDeRegistro();
                             p.setPerfil(perfil);
                             //si es valido se ingresa en las tablas pertinentes                        
-                            validador = validarNuevoUsuario(p);
+                            validador = validarNuevoUsuario(p);                         
                         } while (!validador);
                         if (validador) {
                             //se inserta en peregrino y credenciales si el usuario es valido 
                             PeregrinoDAO P = PeregrinoDAO.singlePeregrino(conex);
                             long peregrinoid = P.insertarSinID(p);
+                            p.setId(peregrinoid);
+                           long credenciales=P.insertarcredenciales(p);
+                            System.out.println("el id de las credenciales insertadas son: "+credenciales);
                             System.out.println("el id de usted es: " + peregrinoid);
                             Peregrino temp = new Peregrino();
                             temp = P.buscarPorID(peregrinoid);
@@ -98,6 +101,7 @@ public class Menus {
                             Long idcarnet = C.insertarSinID(c);
                             System.out.println("el id de su carnet es: " + idcarnet);
                             mostrarPeregrino(p, c);
+                            //IMPLEMENTAR AQUI EL METODO QUE INTRODUZCA LAS CREDENCIALES DLE USUARIO 
 //                          //ha sido eliminado el codigo que ponia aqui el xml y en su lugar una variable guarda su valor para ejecutarlo mas tarde!
                             inscrito.add(p);
 
@@ -332,7 +336,7 @@ public class Menus {
 
         } while (!validador);
         perfil = Perfil.values()[elecc - 1];
-        System.out.println("va a crear un perfil de tipo: " + perfil);
+        System.out.println("va a crear un perfil de tipo:" + perfil);
         return perfil;
     }
 

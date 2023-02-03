@@ -95,12 +95,7 @@ public class Validadores {
         public static boolean validarFechaNueva(LocalDate fecha) {
             boolean val=false;
             LocalDate primerPEREGRINO=LocalDate.of(1800, Month.MARCH, 14);
-		if(fecha.isBefore(LocalDate.now()) || fecha.isAfter(primerPEREGRINO)){
-                    val=true;
-                }
-                else{
-                    val=false;
-                }
-	return val;	
+	    return (fecha.isBefore(LocalDate.now()) || fecha.isAfter(primerPEREGRINO));
+   	
 	}
 }

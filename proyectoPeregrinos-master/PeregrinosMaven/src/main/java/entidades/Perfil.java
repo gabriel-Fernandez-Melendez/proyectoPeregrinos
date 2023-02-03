@@ -10,7 +10,9 @@ package entidades;
  */
 //clase de los perfiles que se pueden tomar en el menu 
 public enum Perfil {
-    Peregrino(1,"Peregrino"),AdministradordeParadas(2,"AdministradorDeParadas"),Invitado(3,"invitado"),AdministradorGeneral(4,"AdministradorGeneral");
+    
+    
+   Peregrino(1,"Peregrino"),AdministradordeParadas(2,"AdministradorDeParadas"),Invitado(3,"invitado"),AdministradorGeneral(4,"AdministradorGeneral");
     
     private int id;
     private String tipodeperfil;
